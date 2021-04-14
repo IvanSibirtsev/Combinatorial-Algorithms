@@ -112,7 +112,7 @@ func main() {
 
 func checkError(err error) {
 	if err != nil {
-		println(err)
+		fmt.Println(fmt.Errorf("error: %s", err))
 		os.Exit(1)
 	}
 }
