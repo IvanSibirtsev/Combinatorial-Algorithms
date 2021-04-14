@@ -9,13 +9,13 @@ import (
 )
 
 type Delta struct {
-	x int
-	y int32
+	number int
+	letter int32
 }
 
 var deltas = []Delta{
-	{2, -1}, {2, 1}, {1, 2}, {1, -2},
-	{-2, 1}, {-2, -1}, {-1, -1}, {-1, 2}}
+	{2, -1}, {2, 1}, {1, 2}, {-1, 2},
+	{-2, 1}, {-2, -1}, {-1, -2}, {1, -2}}
 
 type ChessFigure struct {
 	number int
@@ -41,22 +41,27 @@ type DFS struct {
 }
 
 func (dfs *DFS) run(visited []map[int32]bool, knight ChessFigure, pawn ChessFigure) bool {
-	if !knight.inBoard() || knight.isInDanger(pawn) || visited[knight.number][knight.letter] {
-		return false
-	}
-	visited[knight.number][knight.letter] = true
 	if isInOneCell(knight, pawn) {
 		dfs.result = pawn.toString()
 		return true
 	}
 	for _, delta := range deltas {
-		newPosition := ChessFigure{knight.number + delta.x, knight.letter + delta.y}
-		if dfs.run(visited, newPosition, pawn) {
+		knightAfterMove := ChessFigure{knight.number + delta.number, knight.letter + delta.letter}
+		if !isValidPosition(knightAfterMove, pawn) || visited[knightAfterMove.number][knightAfterMove.letter] {
+			continue
+		}
+		visited[knightAfterMove.number][knightAfterMove.letter] = true
+		if dfs.run(visited, knightAfterMove, pawn) {
 			dfs.result = knight.toString() + " " + dfs.result
 			return true
 		}
 	}
+
 	return false
+}
+
+func isValidPosition(knight ChessFigure, pawn ChessFigure) bool {
+	return knight.inBoard() && !knight.isInDanger(pawn)
 }
 
 func isInOneCell(knight ChessFigure, pawn ChessFigure) bool {
