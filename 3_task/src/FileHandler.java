@@ -35,7 +35,7 @@ public class FileHandler {
         return new Task(source, destination, A);
     }
 
-    private int[][] GetDefaultMatrix(int count) {
+    public static int[][] GetDefaultMatrix(int count) {
         var matrix = new int[count][count];
         for (var i = 0; i < count; i++) {
             for (var j = 0; j < count; j++) {
