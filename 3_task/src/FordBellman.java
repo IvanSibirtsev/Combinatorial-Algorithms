@@ -5,7 +5,7 @@ public class FordBellman {
     private final HashMap<Integer, Integer> distance = new HashMap<>();
     private final HashMap<Integer, Integer> previous = new HashMap<>();
 
-    public String Algorithm(Integer start, Integer finish, int[][] A) {
+    public String algorithm(Integer start, Integer finish, int[][] A) {
         distance.put(start, 0);
         previous.put(start, 0);
         var edges = IntStream.range(0, A.length).toArray();
@@ -26,7 +26,7 @@ public class FordBellman {
                 }
             }
         }
-        return GetPath(start, finish);
+        return getPath(start, finish);
     }
 
     private boolean isValid(int v, int w, int[][] A) {
@@ -34,18 +34,18 @@ public class FordBellman {
                 distance.get(w) < Integer.MAX_VALUE && A[w][v] < Integer.MAX_VALUE;
     }
 
-    private String GetPath(int start, int finish) {
+    private String getPath(int start, int finish) {
         if (distance.get(finish) < Integer.MAX_VALUE) {
             var path = new StringBuilder();
-            path.append(finish).append(" ");
+            path.append(finish + 1).append(" ");
             var length = distance.get(finish);
             var u = finish;
             while (previous.get(u) != 0) {
                 u = previous.get(u);
-                path.append(u).append(" ");
+                path.append(u + 1).append(" ");
             }
-            return path.append(start).reverse().append("\n").append(length).toString();
+            return path.append(start + 1).append("\nY").reverse().append("\n").append(length).toString();
         }
-        return "NO";
+        return "N";
     }
 }

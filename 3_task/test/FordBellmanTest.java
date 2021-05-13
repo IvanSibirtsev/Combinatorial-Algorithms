@@ -5,39 +5,39 @@ import static junit.framework.TestCase.assertEquals;
 public class FordBellmanTest {
 
     @Test
-    public void Test() {
-        var matrix = FileHandler.GetDefaultMatrix(2);
+    public void testSimple() {
+        var matrix = Main.getDefaultMatrix(2);
         matrix[0][1] = 2;
         matrix[1][0] = 2;
         var fordBellman = new FordBellman();
-        var ans = fordBellman.Algorithm(0, 1, matrix);
-        assertEquals(ans, "0 1\n2");
+        var ans = fordBellman.algorithm(0, 1, matrix);
+        assertEquals(ans, "Y\n1 2\n2");
     }
 
     @Test
-    public void TestNoConnectivity() {
-        var matrix = FileHandler.GetDefaultMatrix(3);
+    public void testNoConnectivity() {
+        var matrix = Main.getDefaultMatrix(3);
         matrix[0][1] = 2;
         var fordBellman = new FordBellman();
-        var ans = fordBellman.Algorithm(0, 2, matrix);
-        assertEquals(ans, "NO");
+        var ans = fordBellman.algorithm(0, 2, matrix);
+        assertEquals(ans, "N");
     }
 
     @Test
-    public void TestFromExample() {
-        var matrix = FileHandler.GetDefaultMatrix(4);
+    public void testFromExample() {
+        var matrix = Main.getDefaultMatrix(4);
         matrix[0][1] = -25;
         matrix[0][2] = 4;
         matrix[2][1] = 0;
         matrix[2][3] = 7;
         var fordBellman = new FordBellman();
-        var ans = fordBellman.Algorithm(0, 3, matrix);
-        assertEquals(ans, "0 2 3\n11");
+        var ans = fordBellman.algorithm(0, 3, matrix);
+        assertEquals(ans, "Y\n1 3 4\n11");
     }
 
     @Test
-    public void TestSimple() {
-        var matrix = FileHandler.GetDefaultMatrix(6);
+    public void testNormalGraph() {
+        var matrix = Main.getDefaultMatrix(6);
         matrix[0][1] = 2;
         matrix[1][2] = 3;
         matrix[2][1] = 5;
@@ -45,7 +45,7 @@ public class FordBellmanTest {
         matrix[4][5] = 1;
         matrix[1][5] = 6;
         var fordBellman = new FordBellman();
-        var ans = fordBellman.Algorithm(0, 5, matrix);
-        assertEquals(ans, "0 1 2 4 5\n7");
+        var ans = fordBellman.algorithm(0, 5, matrix);
+        assertEquals(ans, "Y\n1 2 3 5 6\n7");
     }
 }
