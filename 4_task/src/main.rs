@@ -83,7 +83,7 @@ fn prepare_to_write(mst: Vec<(usize, usize, usize)>) -> String {
             .collect();
         line.sort_by_key(|x| x.1);
         for (_v1, v2, cost) in line {
-            final_string.push_str(&format!("{} {} ", v2 + 1, cost));
+            final_string.push_str(&format!("{} ", v2 + 1));
             mst_cost += cost;
         }
         final_string.push_str("0\n");
