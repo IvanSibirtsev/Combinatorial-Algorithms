@@ -1,9 +1,8 @@
 
-fun main() {
-    val (matrix, Y) = parse("4\na b c d 0\na b c 0\na b 0\na 0")
-    val X = matrix.keys.toList()
+fun main(args: Array<String>) {
+    val (matrix, Y) = parse(args[0])
     val currentMatching = getMatching(Y)
-    val alg = KuhnAlgorithm(X, matrix)
+    val alg = KuhnAlgorithm(matrix)
     val (hasMatching, matching) = alg.run(currentMatching)
     if (hasMatching) {
         println("Y\n${matching.keys.joinToString(separator = " ")}")

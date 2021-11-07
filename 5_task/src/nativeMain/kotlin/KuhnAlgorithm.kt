@@ -1,7 +1,7 @@
-class KuhnAlgorithm(X: List<String>, private val matrix: Map<String, List<String>>) {
-     private val T: MutableList<String> = X.toMutableList()
+class KuhnAlgorithm(private val matrix: Map<String, List<String>>) {
+    private val T: MutableList<String> = matrix.keys.toMutableList()
 
-    fun run(yDouble: MutableMap<String, String>): Pair<Boolean, Map<String, String>> {
+    fun run(matching: MutableMap<String, String>): Pair<Boolean, Map<String, String>> {
         val visited = getVisited()
         var indication = 1
         while (indication != 0 && T.isNotEmpty()) {
@@ -12,7 +12,7 @@ class KuhnAlgorithm(X: List<String>, private val matrix: Map<String, List<String
                 val y = choice(x, visited)
                 if (y != "") {
                     stack.add(y)
-                    val z = yDouble[y]!!
+                    val z = matching[y]!!
                     if (z != "") {
                         stack.add(z)
                     }
@@ -31,13 +31,13 @@ class KuhnAlgorithm(X: List<String>, private val matrix: Map<String, List<String
                     val y = stack.removeLast()
                     val x = stack.removeLast()
                     T.remove(x)
-                    yDouble[y] = x
+                    matching[y] = x
                 }
             }
         }
         if (indication == 0 || T.isNotEmpty())
-            return Pair(false, yDouble)
-        return Pair(true, yDouble)
+            return Pair(false, matching)
+        return Pair(true, matching)
     }
 
     private fun getVisited(): MutableMap<String, MutableList<String>> {
@@ -49,10 +49,10 @@ class KuhnAlgorithm(X: List<String>, private val matrix: Map<String, List<String
     }
 
     private fun choice(x: String, visited: Map<String, MutableList<String>>): String {
-        for (edge in matrix[x]!!)
-            if (!visited[x]!!.contains(edge)){
-                visited[x]?.add(edge)
-                return edge
+        for (vertex in matrix[x]!!)
+            if (!visited[x]!!.contains(vertex)){
+                visited[x]?.add(vertex)
+                return vertex
             }
         return ""
     }
