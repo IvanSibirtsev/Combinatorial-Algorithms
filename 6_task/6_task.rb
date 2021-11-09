@@ -1,44 +1,35 @@
 def parse(filename)
-  text = File.open(filename, "r")
-  line = text.gets
-  n, k = line.split(' ').map(&:to_i)
-  matrix = get_empty_matrix(n, Float::INFINITY)
-  (0..k - 1).each { |_|
+  File.open(filename, 'r') do |text|
     line = text.gets
-    f, t, s = line.split(' ').map(&:to_i)
-    f, t = f - 1, t - 1
-    matrix[f][t] = s
-    matrix[t][f] = s
-  }
-  text.close
-  matrix
+    n, k = line.split(' ').map(&:to_i)
+    matrix = get_empty_matrix(n, Float::INFINITY)
+    (0..k - 1).each do |_|
+      line = text.gets
+      f, t, s = line.split(' ').map(&:to_i)
+      f, t = f - 1, t - 1
+      matrix[f][t] = s
+      matrix[t][f] = s
+    end
+    matrix
+  end
 end
 
 def get_empty_matrix(n, default)
-  matrix = Array.new(n) { Array.new(n) }
-  (0..n - 1).each { |i|
-    (0..n - 1).each { |j|
-      matrix[i][j] = j == i ? 0 : default
-    }
-  }
-  matrix
+  Array.new(n) { Array.new(n) }.
+    each_with_index { |line, i| line.each_index { |j| line[j] = i == j ? 0 : default } }
 end
 
 def floyd(distance)
   n = distance.length - 1
-  (0..n).each { |k|
-    (0..n).each { |i|
-      distance_ki = k < i ? distance[k][i] : distance[i][k]
-      next if k != i && distance_ki != Float::INFINITY
-      (i + 1..n).each { |j|
-        distance_kj = k < j ? distance[k][j] : distance[j][k]
-        next if k != j && i != j && distance_kj != Float::INFINITY
-        if distance[i][j] > distance_kj + distance_ki
-          distance[i][j] = distance_kj + distance_ki
+  (0..n).each do |k|
+    (0..n).each do |i|
+      (0..n).each do |j|
+        if distance[i][j] > distance[i][k] + distance[k][j]
+          distance[i][j] = distance[i][k] + distance[k][j]
         end
-      }
-    }
-  }
+      end
+    end
+  end
   distance
 end
 
@@ -53,13 +44,13 @@ def main
 
   minimum = Float::INFINITY
   index = 0
-  (0..n).each { |i|
+  (0..n).each do |i|
     maximum = distance[i].max
     if maximum < minimum
       minimum = maximum
       index = i
     end
-  }
+  end
   result = "#{minimum} #{index + 1}"
   write_in_file('out.txt', result)
 end
