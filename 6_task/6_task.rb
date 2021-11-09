@@ -3,7 +3,7 @@ def parse(filename)
   line = text.gets
   n, k = line.split(' ').map(&:to_i)
   matrix = get_empty_matrix(n, Float::INFINITY)
-  (0..k - 1).each { |i|
+  (0..k - 1).each { |_|
     line = text.gets
     f, t, s = line.split(' ').map(&:to_i)
     f, t = f - 1, t - 1
