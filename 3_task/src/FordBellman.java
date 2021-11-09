@@ -5,7 +5,7 @@ public class FordBellman {
     private final HashMap<Integer, Integer> distance = new HashMap<>();
     private final HashMap<Integer, Integer> previous = new HashMap<>();
 
-    public String algorithm(Integer start, Integer finish, int[][] A) {
+    public String algorithm(int start, int finish, int[][] A) {
         distance.put(start, 0);
         previous.put(start, 0);
         var edges = IntStream.range(0, A.length).toArray();
